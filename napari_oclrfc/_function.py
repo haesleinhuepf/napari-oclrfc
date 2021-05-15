@@ -1,11 +1,3 @@
-"""
-This module is an example of a barebones function plugin for napari
-
-It implements the ``napari_experimental_provide_function`` hook specification.
-see: https://napari.org/docs/dev/plugins/hook_specifications.html
-
-Replace code below according to your needs.
-"""
 from typing import TYPE_CHECKING
 
 from enum import Enum
@@ -16,34 +8,35 @@ if TYPE_CHECKING:
     import napari
 
 
-# This is the actual plugin function, where we export our function
-# (The functions themselves are defined below)
 @napari_hook_implementation
 def napari_experimental_provide_function():
-    # we can return a single function
-    # or a tuple of (function, magicgui_options)
-    # or a list of multiple functions with or without options, as shown here:
-    return [threshold, image_arithmetic]
+    return [train, predict]
 
+import oclrfc
 
-# 1.  First example, a simple function that thresholds an image and creates a labels layer
-def threshold(data: "napari.types.ImageData", threshold: int) -> "napari.types.LabelsData":
-    """Threshold an image and return a mask."""
-    return (data > threshold).astype(int)
+def train(
+        image: "napari.types.ImageData",
+        annotation : "napari.types.LabelsData",
+        model_filename : str = "temp.cl",
+        max_depth : int = 2,
+        num_trees : int = 100
+) -> "napari.types.LabelsData":
+    feature_stack = oclrfc.generate_feature_stack(image)
 
+    num_features = len(feature_stack)
+    num_classes = np.max(annotation)
 
-# 2. Second example, a function that adds, subtracts, multiplies, or divides two layers
+    clf = oclrfc.OCLRandomForestClassifier(num_features, num_classes, opencl_filename=model_filename, num_trees=num_trees, max_depth=max_depth)
+    clf.train(feature_stack, annotation)
 
-# using Enums is a good way to get a dropdown menu.  Used here to select from np functions
-class Operation(Enum):
-    add = np.add
-    subtract = np.subtract
-    multiply = np.multiply
-    divide = np.divide
+    result = clf.predict_gpu(feature_stack)
+    return result
 
+def predict(image: "napari.types.ImageData",
+        model_filename : str = "temp.cl") -> "napari.types.LabelsData":
 
-def image_arithmetic(
-    layerA: "napari.types.ImageData", operation: Operation, layerB: "napari.types.ImageData"
-) -> "napari.types.LayerDataTuple":
-    """Adds, subtracts, multiplies, or divides two same-shaped image layers."""
-    return (operation.value(layerA, layerB), {"colormap": "turbo"})
+    feature_stack = oclrfc.generate_feature_stack(image)
+
+    clf = oclrfc.OCLRandomForestClassifier(0, 0, opencl_filename=model_filename)
+    result = clf.predict_gpu(feature_stack)
+    return result
