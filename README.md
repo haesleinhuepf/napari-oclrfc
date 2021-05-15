@@ -8,23 +8,24 @@
 
 OpenCL-based Random Forest Classifier
 
+[cle](https://github.com/clEsperanto/pyclesperanto_prototype) meets [sklearn](https://scikit-learn.org/stable/)
+
+![](images/screenshot.png)
+
 ----------------------------------
 
 This [napari] plugin was generated with [Cookiecutter] using with [@napari]'s [cookiecutter-napari-plugin] template.
-
-<!--
-Don't miss the full getting started guide to set up your new package:
-https://github.com/napari/cookiecutter-napari-plugin#getting-started
-
-and review the napari docs for plugin developers:
-https://napari.org/docs/plugins/index.html
--->
 
 ## Installation
 
 You can install `napari-oclrfc` via [pip]:
 
-    pip install napari-oclrfc
+    git clone https://github.com/haesleinhuepf/oclrfc
+    cd oclrfc
+    pip install -e .
+    git clone https://github.com/haesleinhuepf/napari-oclrfc
+    cd napari-oclrfc
+    pip install -e .
 
 ## Contributing
 
@@ -38,7 +39,7 @@ Distributed under the terms of the [BSD-3] license,
 
 ## Issues
 
-If you encounter any problems, please [file an issue] along with a detailed description.
+If you encounter any problems, please [open a thread on image.sc](https://image.sc) along with a detailed description and tag [@haesleinhuepf](https://github.com/haesleinhuepf).
 
 [napari]: https://github.com/napari/napari
 [Cookiecutter]: https://github.com/audreyr/cookiecutter
