@@ -18,14 +18,10 @@ This [napari] plugin was generated with [Cookiecutter] using with [@napari]'s [c
 
 ## Installation
 
-You can install `napari-oclrfc` via [pip]:
+You can install `napari-oclrfc` via [pip]. Note: you also need [pyopencl](https://documen.tician.de/pyopencl/).
 
-    git clone https://github.com/haesleinhuepf/oclrfc
-    cd oclrfc
-    pip install -e .
-    git clone https://github.com/haesleinhuepf/napari-oclrfc
-    cd napari-oclrfc
-    pip install -e .
+    conda install pyopencl
+    pip install napari-oclrfc
 
 ## Contributing
  
