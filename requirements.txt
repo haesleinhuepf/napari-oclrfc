@@ -1,2 +1,2 @@
-oclrfc
+oclrfc==0.1.1
 -e .
