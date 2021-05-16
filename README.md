@@ -25,6 +25,11 @@ You can install `napari-oclrfc` via [pip]. Note: you also need [pyopencl](https:
 
     conda install pyopencl
     pip install napari-oclrfc
+    
+In case of issues in napari, make sure these dependencies are installed properly:
+    
+    pip install pyclesperanto_prototype==0.9.0
+    pip install oclrfc==0.1.1
 
 ## Contributing
  
