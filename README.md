@@ -1,4 +1,4 @@
-\# napari-oclrfc
+# napari-oclrfc
 
 [![License](https://img.shields.io/pypi/l/napari-oclrfc.svg?color=green)](https://github.com/haesleinhuepf/napari-oclrfc/raw/master/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/napari-oclrfc.svg?color=green)](https://pypi.org/project/napari-oclrfc)
@@ -6,11 +6,14 @@
 [![tests](https://github.com/haesleinhuepf/napari-oclrfc/workflows/tests/badge.svg)](https://github.com/haesleinhuepf/napari-oclrfc/actions)
 [![codecov](https://codecov.io/gh/haesleinhuepf/napari-oclrfc/branch/master/graph/badge.svg)](https://codecov.io/gh/haesleinhuepf/napari-oclrfc)
 
-OpenCL-based Random Forest Classifier
-
 [cle](https://github.com/clEsperanto/pyclesperanto_prototype) meets [sklearn](https://scikit-learn.org/stable/)
 
+OpenCL-based Random Forest Classifiers for pixel classification in [napari].
+
 ![](images/screenshot.png)
+
+For using OpenCL-based Random Forest Classifiers for pixel classification in python, check out [oclrfc](https://github.com/haesleinhuepf/oclrfc).
+
 
 ----------------------------------
 
