@@ -6,9 +6,9 @@
 [![tests](https://github.com/haesleinhuepf/napari-oclrfc/workflows/tests/badge.svg)](https://github.com/haesleinhuepf/napari-oclrfc/actions)
 [![codecov](https://codecov.io/gh/haesleinhuepf/napari-oclrfc/branch/master/graph/badge.svg)](https://codecov.io/gh/haesleinhuepf/napari-oclrfc)
 
-[cle](https://github.com/clEsperanto/pyclesperanto_prototype) meets [sklearn](https://scikit-learn.org/stable/)
+[py-clEsperanto](https://github.com/clEsperanto/pyclesperanto_prototype) meets [scikit-learn](https://scikit-learn.org/stable/)
 
-OpenCL-based Random Forest Classifiers for pixel classification in [napari].
+A yet experimental OpenCL-based Random Forest Classifier for pixel classification in [napari].
 
 ![](https://github.com/haesleinhuepf/napari-oclrfc/raw/master/images/screenshot.png)
 
@@ -28,7 +28,7 @@ You can install `napari-oclrfc` via [pip]. Note: you also need [pyopencl](https:
     
 In case of issues in napari, make sure these dependencies are installed properly:
     
-    pip install pyclesperanto_prototype==0.9.0
+    pip install pyclesperanto_prototype==0.9.2
     pip install oclrfc==0.1.1
 
 ## Contributing
