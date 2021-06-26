@@ -10,7 +10,7 @@
 
 OpenCL-based Random Forest Classifiers for pixel classification in [napari].
 
-![](images/screenshot.png)
+![](https://github.com/haesleinhuepf/napari-oclrfc/raw/master/images/screenshot.png)
 
 For using OpenCL-based Random Forest Classifiers for pixel classification in python, check out [oclrfc](https://github.com/haesleinhuepf/oclrfc).
 
