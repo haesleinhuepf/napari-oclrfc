@@ -11,6 +11,9 @@
 A yet experimental OpenCL-based Random Forest Classifier for pixel and label classification in [napari].
 
 ![](https://github.com/haesleinhuepf/napari-oclrfc/raw/master/images/screenshot.png)
+The processed example image [maize_clsm.tif](https://github.com/dlegland/mathematical_morphology_with_MorphoLibJ/blob/master/sampleImages/maize_clsm.tif)
+is licensed by David Legland under 
+[CC-BY 4.0 license](https://github.com/dlegland/mathematical_morphology_with_MorphoLibJ/blob/master/LICENSE)
 
 For using OpenCL-based Random Forest Classifiers for pixel classification in python, check out [oclrfc](https://github.com/haesleinhuepf/oclrfc).
 
@@ -52,10 +55,12 @@ Optional: Hide the annotation layer.
 Click the menu `Plugins > OpenCL Random Forest Classifiers > Connected Component Labeling`.
 Make sure the right labels layer is selected. It is supposed to be the result layer from the pixel classification.
 Select the `object class identifier` you used for annotating objects, that's the intensity you drew on objects in the annotation layer.
+Hint: If you want to analyse touching neigbors afterwards, activate the `fill gaps between labels` checkbox.
 Click on the `Run` button.
 ![img_2.png](https://github.com/haesleinhuepf/napari-oclrfc/raw/master/images/img_2.png)
 
 Optional: Hide the pixel classification result layer. Change the opacity of the connected component labels layer.
+
 Add a new labels layer and annotate different object classes by drawing lines through them. 
 In the following example objects with different size and shape were annotated in three classes:
 * round, small

@@ -43,10 +43,13 @@ def predict_pixel_classifier(image: "napari.types.ImageData",
     result = clf.predict(image=image)
     return result
 
-def connected_component_labeling(labels: "napari.types.LabelsData", object_class_identifier : int = 2) -> "napari.types.LabelsData":
+def connected_component_labeling(labels: "napari.types.LabelsData", object_class_identifier : int = 2, fill_gaps_between_labels:bool = True) -> "napari.types.LabelsData":
     import pyclesperanto_prototype as cle
     binary = cle.equal_constant(labels, constant=object_class_identifier)
-    instances = cle.connected_components_labeling_box(binary)
+    if fill_gaps_between_labels:
+        instances = cle.voronoi_labeling(binary)
+    else:
+        instances = cle.connected_components_labeling_box(binary)
     return instances
 
 
@@ -63,7 +66,12 @@ def train_label_classifier(image: "napari.types.ImageData",
         sum_intensity: bool = False,
         standard_deviation_intensity: bool = False,
         shape: bool = False,
-        position:bool = False
+        position:bool = False,
+        touching_neighbor_count:bool = False,
+        average_distance_of_touching_neighbors:bool = False,
+        distance_to_nearest_neighbor:bool = False,
+        average_distance_to_6_nearest_neighbors:bool = False,
+        average_distance_to_10_nearest_neighbors:bool = False,
     ) -> "napari.types.LabelsData":
 
     features = ","
@@ -82,7 +90,17 @@ def train_label_classifier(image: "napari.types.ImageData",
     if shape:
         features = features + "mean_max_distance_to_centroid_ratio,"
     if position:
-        features = features + "centroid_x,centroid_y,centroid_z"
+        features = features + "centroid_x,centroid_y,centroid_z,"
+    if touching_neighbor_count:
+        features = features + "touching_neighbor_count,"
+    if average_distance_of_touching_neighbors:
+        features = features + "average_distance_of_touching_neighbors,"
+    if distance_to_nearest_neighbor:
+        features = features + "average_distance_of_n_nearest_neighbors=1,"
+    if average_distance_to_6_nearest_neighbors:
+        features = features + "average_distance_of_n_nearest_neighbors=6,"
+    if average_distance_to_10_nearest_neighbors:
+        features = features + "average_distance_of_n_nearest_neighbors=10,"
 
     features = features[1:-1]
 
