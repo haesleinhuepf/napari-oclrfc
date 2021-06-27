@@ -10,7 +10,7 @@
 
 A yet experimental OpenCL-based Random Forest Classifier for pixel and label classification in [napari].
 
-![](https://github.com/haesleinhuepf/napari-oclrfc/raw/master/images/img_4.png)
+![](https://github.com/haesleinhuepf/napari-oclrfc/raw/master/images/screenshot.png)
 
 For using OpenCL-based Random Forest Classifiers for pixel classification in python, check out [oclrfc](https://github.com/haesleinhuepf/oclrfc).
 
@@ -34,7 +34,7 @@ In case of issues in napari, make sure these dependencies are installed properly
 ## Usage
 
 Open an image in napari and add a labels layer. Annotate foreground and background with two different label identifiers.
-![img.png](images/img.png)
+![img.png](https://github.com/haesleinhuepf/napari-oclrfc/raw/master/images/img.png)
 
 Click the menu `Plugins > OpenCL Random Forest Classifiers > Train pixel classifier`. 
 Consider changing the `featureset`. There are three options for selecting 
