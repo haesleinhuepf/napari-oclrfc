@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 @napari_hook_implementation
 def napari_experimental_provide_function():
-    return [train, predict]
+    return [train_pixel_classifier, predict_pixel_classifier, connected_component_labeling, train_label_classifier, predict_label_classifier]
 
 import oclrfc
 
@@ -20,10 +20,10 @@ class FeatureSets(Enum):
     medium = "gaussian_blur=5 sobel_of_gaussian_blur=5 top_hat_box=25"
     large = "gaussian_blur=25 sobel_of_gaussian_blur=25 top_hat_box=50"
 
-def train(
+def train_pixel_classifier(
         image: "napari.types.ImageData",
         annotation : "napari.types.LabelsData",
-        model_filename : str = "temp.cl",
+        model_filename : str = "pixel_classifier.cl",
         featureset : FeatureSets = FeatureSets.small,
         max_depth : int = 2,
         num_ensembles : int = 10
@@ -36,9 +36,68 @@ def train(
     result = clf.predict(feature_stack, image)
     return result
 
-def predict(image: "napari.types.ImageData",
-        model_filename : str = "temp.cl") -> "napari.types.LabelsData":
+def predict_pixel_classifier(image: "napari.types.ImageData",
+                             model_filename : str = "temp.cl") -> "napari.types.LabelsData":
 
     clf = oclrfc.OCLRandomForestClassifier(opencl_filename=model_filename)
     result = clf.predict(image=image)
+    return result
+
+def connected_component_labeling(labels: "napari.types.LabelsData", object_class_identifier : int = 2) -> "napari.types.LabelsData":
+    import pyclesperanto_prototype as cle
+    binary = cle.equal_constant(labels, constant=object_class_identifier)
+    instances = cle.connected_components_labeling_box(binary)
+    return instances
+
+
+def train_label_classifier(image: "napari.types.ImageData",
+        labels : "napari.types.LabelsData",
+        annotation : "napari.types.LabelsData",
+        model_filename : str = "label_classifier.cl",
+        max_depth : int = 2,
+        num_ensembles : int = 10,
+        area : bool = True,
+        min_intensity: bool = False,
+        mean_intensity: bool = False,
+        max_intensity: bool = False,
+        sum_intensity: bool = False,
+        standard_deviation_intensity: bool = False,
+        shape: bool = False,
+        position:bool = False
+    ) -> "napari.types.LabelsData":
+
+    features = ","
+    if area:
+        features = features + "area,"
+    if min_intensity:
+        features = features + "min_intensity,"
+    if mean_intensity:
+        features = features + "mean_intensity,"
+    if max_intensity:
+        features = features + "max_intensity,"
+    if sum_intensity:
+        features = features + "sum_intensity,"
+    if standard_deviation_intensity:
+        features = features + "standard_deviation_intensity,"
+    if shape:
+        features = features + "mean_max_distance_to_centroid_ratio,"
+    if position:
+        features = features + "centroid_x,centroid_y,centroid_z"
+
+    features = features[1:-1]
+
+    clf = oclrfc.OCLRandomForestLabelClassifier(opencl_filename=model_filename, num_ensembles=num_ensembles,
+                                           max_depth=max_depth)
+
+    clf.train(features, labels, annotation, image)
+    result = clf.predict(labels, image)
+    return result
+
+def predict_label_classifier(image: "napari.types.ImageData",
+                             labels: "napari.types.LabelsData",
+
+                             model_filename : str = "temp.cl") -> "napari.types.LabelsData":
+
+    clf = oclrfc.OCLRandomForestLabelClassifier(opencl_filename=model_filename)
+    result = clf.predict(labels, image)
     return result
