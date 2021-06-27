@@ -37,6 +37,10 @@ Open an image in napari and add a labels layer. Annotate foreground and backgrou
 ![img.png](images/img.png)
 
 Click the menu `Plugins > OpenCL Random Forest Classifiers > Train pixel classifier`. 
+Consider changing the `featureset`. There are three options for selecting 
+small (about 1 pixel sized) objects, 
+medium (about 5 pixel sized) object and 
+large (about 25 pixel sized) objects.
 Make sure the right image and annotation layers are selected and click on `Run`.
 
 ![img_1.png](https://github.com/haesleinhuepf/napari-oclrfc/raw/master/images/img_1.png)
