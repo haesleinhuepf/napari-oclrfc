@@ -33,7 +33,7 @@ In case of issues in napari, make sure these dependencies are installed properly
 
 ## Usage
 
-Open an image in napari and add a labels layer. Annotate foreground and background with two different label identifiers.
+Open an image in napari and add a labels layer. Annotate foreground and background with two different label identifiers. You can also add a third, e.g. a membrane-like region in between to improve segmentation quality.
 ![img.png](https://github.com/haesleinhuepf/napari-oclrfc/raw/master/images/img.png)
 
 Click the menu `Plugins > OpenCL Random Forest Classifiers > Train pixel classifier`. 
