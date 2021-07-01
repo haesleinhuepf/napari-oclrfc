@@ -10,7 +10,13 @@ if TYPE_CHECKING:
 
 @napari_hook_implementation
 def napari_experimental_provide_function():
-    return [train_pixel_classifier, predict_pixel_classifier, connected_component_labeling, train_label_classifier, predict_label_classifier]
+    return [
+        train_pixel_classifier_on_single_layer,
+        predict_pixel_classifier_on_single_layer,
+        train_pixel_classifier_on_visible_layers,
+        connected_component_labeling,
+        train_label_classifier,
+        predict_label_classifier]
 
 import oclrfc
 
@@ -20,7 +26,7 @@ class FeatureSets(Enum):
     medium = "gaussian_blur=5 sobel_of_gaussian_blur=5 top_hat_box=25"
     large = "gaussian_blur=25 sobel_of_gaussian_blur=25 top_hat_box=50"
 
-def train_pixel_classifier(
+def train_pixel_classifier_on_single_layer(
         image: "napari.types.ImageData",
         annotation : "napari.types.LabelsData",
         model_filename : str = "pixel_classifier.cl",
@@ -36,7 +42,32 @@ def train_pixel_classifier(
     result = clf.predict(feature_stack, image)
     return result
 
-def predict_pixel_classifier(image: "napari.types.ImageData",
+def train_pixel_classifier_on_visible_layers(
+        viewer: "napari.Viewer",
+        annotation : "napari.types.LabelsData",
+        model_filename : str = "pixel_classifier.cl",
+        featureset : FeatureSets = FeatureSets.small,
+        order_visible_layers_alphabetically : bool = True,
+        max_depth : int = 2,
+        num_ensembles : int = 10
+) -> "napari.types.LabelsData":
+    features_definition = featureset.value
+
+    layer_names = list(viewer.layers.keys())
+    if order_visible_layers_alphabetically:
+        layer_names = layer_names.sort()
+
+    feature_stack = []
+    for layer_name in layer_names:
+        feature_stack.append(oclrfc.generate_feature_stack(viewer.layers[layer_name]), features_definition)
+
+    clf = oclrfc.OCLRandomForestClassifier(opencl_filename=model_filename, num_ensembles=num_ensembles, max_depth=max_depth)
+    clf.train(feature_stack, annotation, image)
+
+    result = clf.predict(feature_stack, image)
+    return result
+
+def predict_pixel_classifier_on_single_layer(image: "napari.types.ImageData",
                              model_filename : str = "temp.cl") -> "napari.types.LabelsData":
 
     clf = oclrfc.OCLRandomForestClassifier(opencl_filename=model_filename)
