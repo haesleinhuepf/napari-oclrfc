@@ -8,7 +8,7 @@
 
 [py-clEsperanto](https://github.com/clEsperanto/pyclesperanto_prototype) meets [scikit-learn](https://scikit-learn.org/stable/)
 
-A yet experimental OpenCL-based Random Forest Classifier for pixel and label classification in [napari].
+A yet experimental OpenCL-based Random Forest Classifier for pixel and labeled object classification in [napari].
 
 ![](https://github.com/haesleinhuepf/napari-oclrfc/raw/master/images/screenshot.png)
 The processed example image [maize_clsm.tif](https://github.com/dlegland/mathematical_morphology_with_MorphoLibJ/blob/master/sampleImages/maize_clsm.tif)
