@@ -1,6 +1,6 @@
+from oclrfc import PredefinedFeatureSet
 from typing import TYPE_CHECKING
 
-from enum import Enum
 import numpy as np
 from napari_plugin_engine import napari_hook_implementation
 
@@ -14,21 +14,18 @@ def napari_experimental_provide_function():
 
 import oclrfc
 
-
-class FeatureSets(Enum):
-    small = "original gaussian_blur=1 sobel_of_gaussian_blur=1 top_hat_box=5"
-    medium = "gaussian_blur=5 sobel_of_gaussian_blur=5 top_hat_box=25"
-    large = "gaussian_blur=25 sobel_of_gaussian_blur=25 top_hat_box=50"
-
 def train_pixel_classifier(
         image: "napari.types.ImageData",
         annotation : "napari.types.LabelsData",
         model_filename : str = "pixel_classifier.cl",
-        featureset : FeatureSets = FeatureSets.small,
+        featureset : PredefinedFeatureSet = PredefinedFeatureSet.small_quick,
+        custom_features : str = "original gaussian_blur=1 sobel_of_gaussian_blur=1",
         max_depth : int = 2,
         num_ensembles : int = 10
 ) -> "napari.types.LabelsData":
     feature_stack = featureset.value
+    if feature_stack == "":
+        feature_stack = custom_features
 
     clf = oclrfc.OCLRandomForestClassifier(opencl_filename=model_filename, num_ensembles=num_ensembles, max_depth=max_depth)
     clf.train(feature_stack, annotation, image)
@@ -37,7 +34,7 @@ def train_pixel_classifier(
     return result
 
 def predict_pixel_classifier(image: "napari.types.ImageData",
-                             model_filename : str = "temp.cl") -> "napari.types.LabelsData":
+                             model_filename : str = "pixel_classifier.cl") -> "napari.types.LabelsData":
 
     clf = oclrfc.OCLRandomForestClassifier(opencl_filename=model_filename)
     result = clf.predict(image=image)
@@ -114,7 +111,7 @@ def train_label_classifier(image: "napari.types.ImageData",
 def predict_label_classifier(image: "napari.types.ImageData",
                              labels: "napari.types.LabelsData",
 
-                             model_filename : str = "temp.cl") -> "napari.types.LabelsData":
+                             model_filename : str = "label_classifier.cl") -> "napari.types.LabelsData":
 
     clf = oclrfc.OCLRandomForestLabelClassifier(opencl_filename=model_filename)
     result = clf.predict(labels, image)
