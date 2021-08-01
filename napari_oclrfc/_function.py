@@ -10,11 +10,11 @@ if TYPE_CHECKING:
 
 @napari_hook_implementation
 def napari_experimental_provide_function():
-    return [train_pixel_classifier, predict_pixel_classifier, connected_component_labeling, train_label_classifier, predict_label_classifier]
+    return [Train_OCLRFC_pixel_classifier, Predict_OCLRFC_pixel_classifier, Connected_component_labeling, Train_OCLRFC_label_classifier, Predict_OCLRFC_label_classifier]
 
 import oclrfc
 
-def train_pixel_classifier(
+def Train_OCLRFC_pixel_classifier(
         image: "napari.types.ImageData",
         annotation : "napari.types.LabelsData",
         model_filename : str = "pixel_classifier.cl",
@@ -33,14 +33,14 @@ def train_pixel_classifier(
     result = clf.predict(feature_stack, image)
     return result
 
-def predict_pixel_classifier(image: "napari.types.ImageData",
+def Predict_OCLRFC_pixel_classifier(image: "napari.types.ImageData",
                              model_filename : str = "pixel_classifier.cl") -> "napari.types.LabelsData":
 
     clf = oclrfc.OCLRandomForestClassifier(opencl_filename=model_filename)
     result = clf.predict(image=image)
     return result
 
-def connected_component_labeling(labels: "napari.types.LabelsData", object_class_identifier : int = 2, fill_gaps_between_labels:bool = True) -> "napari.types.LabelsData":
+def Connected_component_labeling(labels: "napari.types.LabelsData", object_class_identifier : int = 2, fill_gaps_between_labels:bool = True) -> "napari.types.LabelsData":
     import pyclesperanto_prototype as cle
     binary = cle.equal_constant(labels, constant=object_class_identifier)
     if fill_gaps_between_labels:
@@ -50,7 +50,7 @@ def connected_component_labeling(labels: "napari.types.LabelsData", object_class
     return instances
 
 
-def train_label_classifier(image: "napari.types.ImageData",
+def Train_OCLRFC_label_classifier(image: "napari.types.ImageData",
         labels : "napari.types.LabelsData",
         annotation : "napari.types.LabelsData",
         model_filename : str = "label_classifier.cl",
@@ -108,7 +108,7 @@ def train_label_classifier(image: "napari.types.ImageData",
     result = clf.predict(labels, image)
     return result
 
-def predict_label_classifier(image: "napari.types.ImageData",
+def Predict_OCLRFC_label_classifier(image: "napari.types.ImageData",
                              labels: "napari.types.LabelsData",
 
                              model_filename : str = "label_classifier.cl") -> "napari.types.LabelsData":
