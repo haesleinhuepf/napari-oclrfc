@@ -10,11 +10,11 @@ if TYPE_CHECKING:
 
 @napari_hook_implementation
 def napari_experimental_provide_function():
-    return [Train_OCLRFC_pixel_classifier, Predict_OCLRFC_pixel_classifier, Connected_component_labeling, Train_OCLRFC_label_classifier, Predict_OCLRFC_label_classifier]
+    return [Train_pixel_classifier, Predict_pixel_classifier, Connected_component_labeling, Train_label_classifier, Predict_label_classifier]
 
 import oclrfc
 
-def Train_OCLRFC_pixel_classifier(
+def Train_pixel_classifier(
         image: "napari.types.ImageData",
         annotation : "napari.types.LabelsData",
         model_filename : str = "pixel_classifier.cl",
@@ -33,7 +33,7 @@ def Train_OCLRFC_pixel_classifier(
     result = clf.predict(feature_stack, image)
     return result
 
-def Predict_OCLRFC_pixel_classifier(image: "napari.types.ImageData",
+def Predict_pixel_classifier(image: "napari.types.ImageData",
                              model_filename : str = "pixel_classifier.cl") -> "napari.types.LabelsData":
 
     clf = oclrfc.OCLRandomForestClassifier(opencl_filename=model_filename)
@@ -50,7 +50,7 @@ def Connected_component_labeling(labels: "napari.types.LabelsData", object_class
     return instances
 
 
-def Train_OCLRFC_label_classifier(image: "napari.types.ImageData",
+def Train_label_classifier(image: "napari.types.ImageData",
         labels : "napari.types.LabelsData",
         annotation : "napari.types.LabelsData",
         model_filename : str = "label_classifier.cl",
@@ -108,7 +108,7 @@ def Train_OCLRFC_label_classifier(image: "napari.types.ImageData",
     result = clf.predict(labels, image)
     return result
 
-def Predict_OCLRFC_label_classifier(image: "napari.types.ImageData",
+def Predict_label_classifier(image: "napari.types.ImageData",
                              labels: "napari.types.LabelsData",
 
                              model_filename : str = "label_classifier.cl") -> "napari.types.LabelsData":
