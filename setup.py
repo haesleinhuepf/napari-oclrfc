@@ -7,6 +7,6 @@ from setuptools import setup
 use_scm = {"write_to": "napari_oclrfc/_version.py"}
 
 setup(
-    version='0.4.4'
+    version='0.4.5'
     #use_scm_version=use_scm,
 )
