@@ -1,3 +1,11 @@
+
+# Note: This is a decommissioned napari plugin 
+
+This project is discontinued. Check out [napari-accelerated-pixel-and-object-classification(APOC)](https://github.com/haesleinhuepf/napari-accelerated-pixel-and-object-classification)
+to see what happend to the code.
+
+---
+
 # napari-oclrfc
 
 [![License](https://img.shields.io/pypi/l/napari-oclrfc.svg?color=green)](https://github.com/haesleinhuepf/napari-oclrfc/raw/master/LICENSE)
