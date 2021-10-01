@@ -1,8 +1,12 @@
 
 # Note: This is a decommissioned napari plugin 
 
-This project is discontinued. You can still install and use it (last tested with napari 0.4.11) but this project is 
+This project is discontinued. You can still install and use it (version 0.4.4 was last tested with napari 0.4.11) but this project is 
 no longer maintained and supported. 
+```python
+conda install pyopencl
+pip install napari-oclrfc==0.4.4
+```
 
 Check out [napari-accelerated-pixel-and-object-classification (APOC)](https://github.com/haesleinhuepf/napari-accelerated-pixel-and-object-classification)
 to learn more about this plugin's successor.
