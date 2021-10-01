@@ -1,8 +1,11 @@
 
 # Note: This is a decommissioned napari plugin 
 
-This project is discontinued. Check out [napari-accelerated-pixel-and-object-classification(APOC)](https://github.com/haesleinhuepf/napari-accelerated-pixel-and-object-classification)
-to see what happend to the code.
+This project is discontinued. You can still install and use it (last tested with napari 0.4.11) but this project is 
+no longer maintained and supported. 
+
+Check out [napari-accelerated-pixel-and-object-classification (APOC)](https://github.com/haesleinhuepf/napari-accelerated-pixel-and-object-classification)
+to learn more about this plugin's successor.
 
 ---
 
